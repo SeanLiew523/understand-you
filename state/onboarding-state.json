@@ -1,0 +1,63 @@
+{
+  "version": "3.0",
+  "profile_mode": "undetermined",
+  "status": "not_started",
+  "current_phase": "detect",
+  "day_index": 0,
+  "started_at": null,
+  "last_updated_at": null,
+  "last_proactive_touch_at": null,
+  "question_budget": {
+    "rounds_this_session": 0,
+    "cooldown_until": null
+  },
+  "signals": {
+    "engagement_level": "medium",
+    "trust_level": "low",
+    "fatigue_risk": "low",
+    "last_reply_length": "none",
+    "explicit_stop": false
+  },
+  "coverage": {
+    "identity_basics": false,
+    "safety_boundaries": false,
+    "assistance_scope": false,
+    "work_context": false,
+    "work_environment": false,
+    "work_tasks": false,
+    "learning_context": false,
+    "life_context": false,
+    "personal_preferences": false,
+    "communication_style": false,
+    "thinking_habits": false,
+    "boundaries_and_sensitivities": false,
+    "style_calibration": false,
+    "feedback_loop_installed": false,
+    "cron_job_created": false
+  },
+  "coverage_assessment": {
+    "identity_basics": "missing",
+    "safety_boundaries": "missing",
+    "assistance_scope": "missing",
+    "work_context": "missing",
+    "work_environment": "missing",
+    "work_tasks": "missing",
+    "learning_context": "missing",
+    "life_context": "missing",
+    "personal_preferences": "missing",
+    "communication_style": "missing",
+    "thinking_habits": "missing",
+    "boundaries_and_sensitivities": "missing",
+    "style_calibration": "missing",
+    "feedback_loop_installed": "missing",
+    "cron_job_created": "missing"
+  },
+  "scope_flags": {
+    "work": false,
+    "learning": false,
+    "life": false,
+    "other": false,
+    "other_description": null
+  },
+  "notes": []
+}

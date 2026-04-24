@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OutputPreferences",
+  "type": "object",
+  "properties": {
+    "default_language": {
+      "type": "string"
+    },
+    "conclusion_first": {
+      "type": "boolean"
+    },
+    "wants_traceability": {
+      "type": "boolean"
+    },
+    "wants_reasoning_logic": {
+      "type": "boolean"
+    },
+    "deep_dive_only_on_request": {
+      "type": "boolean"
+    },
+    "preferred_length": {
+      "type": "string"
+    },
+    "interrupt_tolerance": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "low_to_medium"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

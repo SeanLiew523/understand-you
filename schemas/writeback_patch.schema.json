@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WritebackPatch",
+  "type": "object",
+  "required": [
+    "target_file",
+    "target_section",
+    "operation",
+    "content",
+    "confidence",
+    "reason"
+  ],
+  "properties": {
+    "target_file": {
+      "type": "string",
+      "enum": [
+        "USER.md",
+        "MEMORY.md",
+        "IDENTITY.md",
+        "AGENTS.md",
+        "TOOLS.md",
+        "HEARTBEAT.md",
+        "SOUL.md"
+      ]
+    },
+    "target_section": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "append",
+        "insert_after_section",
+        "insert_before_section",
+        "create_section_if_missing",
+        "annotated_update",
+        "replace_section"
+      ]
+    },
+    "content": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "requires_confirmation": {
+      "type": "boolean",
+      "default": false
+    },
+    "impact_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "high"
+      ],
+      "default": "low"
+    }
+  },
+  "additionalProperties": false
+}

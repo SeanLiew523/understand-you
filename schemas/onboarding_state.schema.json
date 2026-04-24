@@ -1,0 +1,291 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OnboardingState",
+  "type": "object",
+  "required": [
+    "version",
+    "profile_mode",
+    "status",
+    "current_phase",
+    "day_index",
+    "started_at",
+    "last_updated_at",
+    "question_budget",
+    "signals",
+    "coverage",
+    "coverage_assessment"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "profile_mode": {
+      "type": "string",
+      "enum": [
+        "undetermined",
+        "cold_start",
+        "partial_profile",
+        "mature_profile"
+      ],
+      "description": "Determines whether the skill should do full onboarding, gap-filling, or light recalibration. `undetermined` is allowed only before the first scan."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "active",
+        "paused",
+        "observation_mode",
+        "completed",
+        "completed_partial"
+      ]
+    },
+    "current_phase": {
+      "type": "string",
+      "enum": [
+        "detect",
+        "gap_audit",
+        "warm_welcome",
+        "scope_discovery",
+        "work_deep_dive",
+        "learning_deep_dive",
+        "life_deep_dive",
+        "environment_tools",
+        "preferences_and_style",
+        "conflict_resolution",
+        "recalibration_audit",
+        "style_calibration",
+        "feedback_install",
+        "observe_adapt",
+        "maintenance"
+      ]
+    },
+    "day_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30,
+      "description": "Calendar days since onboarding started. Used for timeout detection, not content sequencing."
+    },
+    "started_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Null before onboarding begins; set to the first onboarding start time once active."
+    },
+    "last_updated_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Null before any onboarding writeback occurs; set on first state update."
+    },
+    "last_proactive_touch_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "question_budget": {
+      "type": "object",
+      "required": [
+        "rounds_this_session",
+        "cooldown_until"
+      ],
+      "properties": {
+        "rounds_this_session": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many onboarding question rounds have been asked in the current session. Reset on new session; the default first-session cap is 5, with earlier stopping only when the user clearly disengages or asks to stop."
+        },
+        "cooldown_until": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "signals": {
+      "type": "object",
+      "required": [
+        "engagement_level",
+        "trust_level",
+        "fatigue_risk",
+        "last_reply_length",
+        "explicit_stop"
+      ],
+      "properties": {
+        "engagement_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "trust_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "fatigue_risk": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "last_reply_length": {
+          "type": "string",
+          "enum": ["none", "short", "medium", "long"]
+        },
+        "explicit_stop": {
+          "type": "boolean",
+          "description": "True if the user has explicitly asked to stop onboarding questions. Once true, only heartbeat follow-up is allowed, never proactive rounds.",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "description": "Tracks whether each dimension is sufficiently covered for day-to-day use. These booleans are derived from `coverage_assessment`: `strong` and `not_applicable` map to true; `missing`, `weak`, and `conflicting` map to false.",
+      "required": [
+        "identity_basics",
+        "safety_boundaries",
+        "assistance_scope",
+        "work_context",
+        "work_environment",
+        "work_tasks",
+        "learning_context",
+        "life_context",
+        "personal_preferences",
+        "communication_style",
+        "thinking_habits",
+        "boundaries_and_sensitivities",
+        "style_calibration",
+        "feedback_loop_installed",
+        "cron_job_created"
+      ],
+      "properties": {
+        "identity_basics": {
+          "type": "boolean",
+          "description": "Name, timezone, language, pronouns if offered"
+        },
+        "safety_boundaries": {
+          "type": "boolean",
+          "description": "What the agent must NEVER do without permission. Hard red lines."
+        },
+        "assistance_scope": {
+          "type": "boolean",
+          "description": "Which domains the human wants help with: work, learning, life, other. This determines which deep-dive dimensions to activate."
+        },
+        "work_context": {
+          "type": "boolean",
+          "description": "Role, company, industry, team structure, current pressures, key projects"
+        },
+        "work_environment": {
+          "type": "boolean",
+          "description": "OS, devices, tools, accounts, APIs, local vs cloud, tech stack"
+        },
+        "work_tasks": {
+          "type": "boolean",
+          "description": "Current task backlog, recurring responsibilities, what drains the most energy, what the agent should proactively handle"
+        },
+        "learning_context": {
+          "type": "boolean",
+          "description": "What the human is learning, learning style, resources they follow, how the agent can help as a study partner"
+        },
+        "life_context": {
+          "type": "boolean",
+          "description": "Family situation, hobbies, interests, routines — only what the human is willing to share and what helps the agent serve better"
+        },
+        "personal_preferences": {
+          "type": "boolean",
+          "description": "What the human most wants the agent to proactively handle, what to never touch, general taste and values"
+        },
+        "communication_style": {
+          "type": "boolean",
+          "description": "Conclusion-first vs background-first, evidence depth, length tolerance, humor tolerance, formality level"
+        },
+        "thinking_habits": {
+          "type": "boolean",
+          "description": "How the human makes decisions, what frameworks they like, analytical vs intuitive, detail-oriented vs big-picture"
+        },
+        "boundaries_and_sensitivities": {
+          "type": "boolean",
+          "description": "Topics to handle carefully, things that annoy the human about AI assistants, social and emotional boundaries"
+        },
+        "style_calibration": {
+          "type": "boolean",
+          "description": "A/B tested with real examples, confirmed by the human"
+        },
+        "feedback_loop_installed": {
+          "type": "boolean",
+          "description": "Feedback mechanism is in place and explained to the human"
+        },
+        "cron_job_created": {
+          "type": "boolean",
+          "description": "Weekly calibration cron job successfully created"
+        }
+      },
+      "additionalProperties": false
+    },
+    "coverage_assessment": {
+      "type": "object",
+      "description": "Fine-grained audit result for each dimension after scanning existing files and conversation history. This is the authoritative source for deciding whether to skip, fill, or reconcile a dimension.",
+      "required": [
+        "identity_basics",
+        "safety_boundaries",
+        "assistance_scope",
+        "work_context",
+        "work_environment",
+        "work_tasks",
+        "learning_context",
+        "life_context",
+        "personal_preferences",
+        "communication_style",
+        "thinking_habits",
+        "boundaries_and_sensitivities",
+        "style_calibration",
+        "feedback_loop_installed",
+        "cron_job_created"
+      ],
+      "properties": {
+        "identity_basics": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "safety_boundaries": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "assistance_scope": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "work_context": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "work_environment": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "work_tasks": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "learning_context": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "life_context": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "personal_preferences": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "communication_style": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "thinking_habits": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "boundaries_and_sensitivities": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "style_calibration": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "feedback_loop_installed": { "$ref": "#/definitions/coverageAssessmentValue" },
+        "cron_job_created": { "$ref": "#/definitions/coverageAssessmentValue" }
+      },
+      "additionalProperties": false
+    },
+    "scope_flags": {
+      "type": "object",
+      "description": "Which domains the human wants help with. Determines which deep-dive fields are required.",
+      "properties": {
+        "work": { "type": "boolean", "default": false },
+        "learning": { "type": "boolean", "default": false },
+        "life": { "type": "boolean", "default": false },
+        "other": { "type": "boolean", "default": false },
+        "other_description": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "coverageAssessmentValue": {
+      "type": "string",
+      "enum": [
+        "missing",
+        "weak",
+        "strong",
+        "conflicting",
+        "not_applicable"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

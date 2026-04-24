@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CalibrationState",
+  "type": "object",
+  "required": [
+    "version",
+    "last_reviewed_at",
+    "recent_feedback",
+    "recurring_issues",
+    "rule_upgrade_queue"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "last_reviewed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "recent_feedback": {
+      "type": "array",
+      "description": "Each item follows feedback_event.schema.json",
+      "items": {
+        "$ref": "feedback_event.schema.json"
+      }
+    },
+    "recurring_issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/recurringIssue"
+      }
+    },
+    "rule_upgrade_queue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ruleUpgrade"
+      }
+    }
+  },
+  "definitions": {
+    "recurringIssue": {
+      "type": "object",
+      "required": [
+        "issue_type",
+        "count",
+        "last_seen_at",
+        "suggested_target"
+      ],
+      "properties": {
+        "issue_type": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last_seen_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "suggested_target": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ruleUpgrade": {
+      "type": "object",
+      "required": [
+        "issue_type",
+        "target_file",
+        "target_section",
+        "proposal_summary",
+        "impact_level",
+        "requires_confirmation",
+        "status"
+      ],
+      "properties": {
+        "issue_type": {
+          "type": "string"
+        },
+        "target_file": {
+          "type": "string",
+          "enum": [
+            "USER.md",
+            "MEMORY.md",
+            "IDENTITY.md",
+            "AGENTS.md",
+            "TOOLS.md",
+            "HEARTBEAT.md",
+            "SOUL.md"
+          ]
+        },
+        "target_section": {
+          "type": "string"
+        },
+        "proposal_summary": {
+          "type": "string"
+        },
+        "impact_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "high"
+          ]
+        },
+        "requires_confirmation": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "proposed",
+            "approved",
+            "applied",
+            "deferred",
+            "rejected"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

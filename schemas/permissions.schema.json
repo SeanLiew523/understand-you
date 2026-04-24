@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Permissions",
+  "type": "object",
+  "properties": {
+    "privacy": {
+      "$ref": "#/definitions/permissionLevel"
+    },
+    "core_config": {
+      "$ref": "#/definitions/permissionLevel"
+    },
+    "destructive_ops": {
+      "$ref": "#/definitions/permissionLevel"
+    },
+    "agent_owned_accounts": {
+      "$ref": "#/definitions/permissionLevel"
+    },
+    "human_owned_accounts": {
+      "$ref": "#/definitions/permissionLevel"
+    },
+    "local_api_calls": {
+      "$ref": "#/definitions/permissionLevel"
+    },
+    "custom_rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/customPermission"
+      },
+      "description": "Additional permission rules that do not fit the standard fields"
+    }
+  },
+  "definitions": {
+    "permissionLevel": {
+      "type": "object",
+      "required": [
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "ask_first",
+            "do_then_report",
+            "blocked",
+            "conditional"
+          ]
+        },
+        "condition": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Required when level is 'conditional'. Describes when ask_first vs do_then_report applies."
+        }
+      },
+      "additionalProperties": false
+    },
+    "customPermission": {
+      "type": "object",
+      "required": [
+        "domain",
+        "level"
+      ],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "What this rule governs, e.g. 'posting on Twitter' or 'sending emails to external contacts'"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "ask_first",
+            "do_then_report",
+            "blocked",
+            "conditional"
+          ]
+        },
+        "condition": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
