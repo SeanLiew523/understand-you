@@ -2,9 +2,15 @@
 
 # understand_you
 
+![Version](https://img.shields.io/badge/version-v1.0.0-black)
+![License](https://img.shields.io/badge/license-MIT-green)
+![OpenClaw](https://img.shields.io/badge/OpenClaw-skill-2563eb)
+
 语言：**中文** | [English](README.md)
 
 `understand_you` 是一个给 OpenClaw 用的技能，核心目标只有一个：让一个刚装好的，或者还不够懂主人的 agent，在大约 3 天的真实使用里明显变得更懂你。
+
+它的目标是让 OpenClaw 更快理解主人的业务语境、工作习惯、边界和沟通方式，把这些理解写进正确的 workspace 文件里，并在后续使用中持续校准。
 
 ## 总览
 
@@ -17,6 +23,18 @@
 - 把确认过的信息写进真正有用的 OpenClaw 配置文件
 - 后续持续校准，而不是每次都退回到很通用的风格
 - 当 agent 的角色和与你的关系发生漂移时，推动 `SOUL.md` 跟着修正
+
+## 快速开始
+
+1. 把这个文件夹复制到 OpenClaw 工作区的 `skills/` 目录下。
+2. 新开一个会话：`/new`
+3. 执行：
+
+```text
+/skill understand_you start
+```
+
+这条命令就是这个 skill 的标准 bootstrap 入口。
 
 ## 它为什么存在
 
@@ -109,20 +127,7 @@
 cp -R understand-you /path/to/your/openclaw-workspace/skills/understand-you
 ```
 
-## 如何启动
-
-把 skill 文件夹放进去之后，它会变成“可用”，但不会稳定地自己自动开始跑。
-
-正确的首次启动方式是：
-
-1. 先开一个新会话：`/new`
-2. 再执行：
-
-```text
-/skill understand_you start
-```
-
-这条命令就是这个 skill 的标准 bootstrap 入口。
+把 skill 文件夹放进去之后，它会变成“可用”，但不会稳定地自己自动开始跑。首次启动请直接按上面的“快速开始”执行。
 
 ## 安全模型
 
@@ -134,7 +139,7 @@ cp -R understand-you /path/to/your/openclaw-workspace/skills/understand-you
 - 较大的 `SOUL.md`、权限、身份姿态调整仍然需要确认
 - 低影响的校准改动可以根据影响级别走提案或轻量回执
 
-## 首次运行会做什么
+## 首次运行流程
 
 这个 skill 的设计流程是：
 

@@ -2,9 +2,15 @@
 
 # understand_you
 
+![Version](https://img.shields.io/badge/version-v1.0.0-black)
+![License](https://img.shields.io/badge/license-MIT-green)
+![OpenClaw](https://img.shields.io/badge/OpenClaw-skill-2563eb)
+
 Language: **English** | [中文](README.zh-CN.md)
 
 `understand_you` is an OpenClaw skill built for one job: help a newly installed or partially profiled agent become noticeably more aligned with its owner in about 3 days of real use.
+
+Help a new or partially profiled OpenClaw agent learn its owner faster, write that understanding into the right workspace files, and keep calibrating as the relationship evolves.
 
 ## Overview
 
@@ -17,6 +23,18 @@ It helps the agent:
 - write confirmed information into the right OpenClaw workspace files
 - keep calibrating over time instead of resetting to a generic style
 - update `SOUL.md` when the agent's role and relationship drift
+
+## Quick Start
+
+1. Copy this folder into your OpenClaw workspace `skills/` directory.
+2. Start a new session with `/new`.
+3. Run:
+
+```text
+/skill understand_you start
+```
+
+That is the canonical bootstrap command for this skill.
 
 ## Why This Exists
 
@@ -109,20 +127,7 @@ Example:
 cp -R understand-you /path/to/your/openclaw-workspace/skills/understand-you
 ```
 
-## How To Start It
-
-Installing the folder makes the skill available, but it will not reliably auto-run by itself.
-
-For a clean first run:
-
-1. start a new session with `/new`
-2. run:
-
-```text
-/skill understand_you start
-```
-
-That is the canonical bootstrap command for this skill.
+Installing the folder makes the skill available, but it will not reliably auto-run by itself. Use the Quick Start flow above for the first run.
 
 ## Safety Model
 
@@ -134,7 +139,7 @@ The skill is intentionally proactive, but not unconstrained.
 - Major `SOUL.md`, permission, or identity shifts still require confirmation.
 - Low-impact calibration adjustments can be proposed or applied with a lightweight receipt depending on impact level.
 
-## What Happens On First Run
+## First-Run Lifecycle
 
 The skill is designed to:
 
