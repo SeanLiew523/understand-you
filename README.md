@@ -6,6 +6,18 @@ Language: **English** | [中文](README.zh-CN.md)
 
 `understand_you` is an OpenClaw skill built for one job: help a newly installed or partially profiled agent become noticeably more aligned with its owner in about 3 days of real use.
 
+## Overview
+
+This skill is designed for the moment when an OpenClaw agent still feels generic.
+
+It helps the agent:
+
+- learn the owner's business context, work habits, priorities, tools, and communication preferences
+- understand safety boundaries and permission expectations
+- write confirmed information into the right OpenClaw workspace files
+- keep calibrating over time instead of resetting to a generic style
+- update `SOUL.md` when the agent's role and relationship drift
+
 ## Why This Exists
 
 Most onboarding skills ask a few questions and stop. That leaves the agent generic.
@@ -19,6 +31,14 @@ Most onboarding skills ask a few questions and stop. That leaves the agent gener
 - `SOUL.md` can evolve when the agent's role changes over time
 
 The intended effect is simple: the agent should stop sounding generic and start feeling like it actually knows how to work with you.
+
+## Who This Is For
+
+This repository is for OpenClaw users who want one of these outcomes:
+
+- a fresh agent that can get useful fast instead of staying bland for weeks
+- an existing workspace that already has some memory, but still has obvious blind spots
+- a long-running agent that needs recalibration because the work changed and the persona did not
 
 ## Key Highlights
 
@@ -63,6 +83,22 @@ The intended effect is simple: the agent should stop sounding generic and start 
 
    The skill is proactive, but it does not silently change permissions, identity posture, or major `SOUL.md` shifts without explicit confirmation.
 
+## What It May Write
+
+When information is confirmed, the skill may update the following files:
+
+- `USER.md`
+- `MEMORY.md`
+- `TOOLS.md`
+- `AGENTS.md`
+- `HEARTBEAT.md`
+- `SOUL.md`
+
+It also maintains runtime state in:
+
+- `state/understand_you/onboarding-state.json`
+- `state/understand_you/calibration-state.json`
+
 ## Installation
 
 Copy this folder into your OpenClaw workspace `skills/` directory.
@@ -88,6 +124,16 @@ For a clean first run:
 
 That is the canonical bootstrap command for this skill.
 
+## Safety Model
+
+The skill is intentionally proactive, but not unconstrained.
+
+- It scans first, then asks.
+- It prefers append or patch behavior over rewriting mature files.
+- It does not silently change high-impact defaults.
+- Major `SOUL.md`, permission, or identity shifts still require confirmation.
+- Low-impact calibration adjustments can be proposed or applied with a lightweight receipt depending on impact level.
+
 ## What Happens On First Run
 
 The skill is designed to:
@@ -100,6 +146,21 @@ The skill is designed to:
 4. install proactive follow-up infrastructure in `AGENTS.md` and `HEARTBEAT.md`
 5. begin the onboarding conversation in the same session
 6. write confirmed information into the appropriate `.md` files
+
+## Tested Behavior
+
+This skill has been iterated against real OpenClaw usage with both:
+
+- fresh workspaces
+- existing workspaces that already contain `USER.md`, `MEMORY.md`, `AGENTS.md`, and `HEARTBEAT.md`
+
+The current version is specifically shaped around:
+
+- `cold_start`
+- `partial_profile`
+- `mature_profile`
+- gap-audit behavior before questioning
+- OpenClaw-first runtime assumptions
 
 ## Recommended Test Flow
 
@@ -115,6 +176,13 @@ The skill is designed to:
 This package is designed for OpenClaw workspace semantics. It assumes the usual OpenClaw bootstrap files and OpenClaw-style heartbeat and cron behavior.
 
 It is not presented as a generic multi-runtime skill package.
+
+## Known Limits
+
+- Installation alone does not auto-start the skill. Use `/skill understand_you start`.
+- Gateway or channel instability can interrupt onboarding and leave partial state.
+- Existing workspaces with stale onboarding sections from older skills should be cleaned before evaluation.
+- The packaged `state/*.json` files are templates, not live runtime files.
 
 ## Repository Layout
 
@@ -136,3 +204,7 @@ understand-you/
 - If you are testing on an old workspace, remove stale onboarding sections from earlier skills before judging results.
 - If the gateway or chat channel is unstable, fix that first. A broken Discord or WebSocket session can interrupt onboarding and leave partial state.
 - The packaged `state/*.json` files are templates. Runtime state should live in the workspace under `state/understand_you/`.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
